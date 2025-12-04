@@ -15,9 +15,32 @@ export default function LoginPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log(form);
+    const response = await fetch("/api/auth/login",{method:"POST",body:JSON.stringify(form)});
+    const data =await response.json();
+
+    if(response.ok){
+      document.cookie = `token=${data.token}; path=/`;
+
+      if(data.role==="ADMIN"){
+        window.location.href = "/admin/dashboard";
+      }
+      else if(data.role==="MANAGER"){
+        window.location.href = "/manager/dashboard";
+      }
+      else if(data.role==="ADMIN_STAFF"){
+        window.location.href = "/admin-staff/dashboard";
+      }
+      else if(data.role==="CASHIER"){
+        window.location.href = "/cashier/dashboard";
+      }
+      else if(data.role==="METER_READER"){
+        window.location.href = "/meter-reader/dashboard";
+      }else{
+        alert("Unknown role");
+      }
+    }
   }
 
   return (

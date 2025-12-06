@@ -41,6 +41,9 @@ export default function LoginPage() {
         alert("Unknown role");
       }
     }
+    else{
+      alert(data.errori ||"Login failed");
+    }
   }
 
   return (

@@ -445,6 +445,7 @@ function SidebarMenuItem({ icon: Icon, label, className, ...props }) {
     <li
       data-slot="sidebar-menu-item"
       data-sidebar="menu-item"
+      onClick={() => window.location.href = props.href}
       className={cn(
         "group/menu-item relative flex items-center gap-3 px-4 py-2 cursor-pointer",
         className

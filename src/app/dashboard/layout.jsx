@@ -20,12 +20,16 @@ export default function DashboardLayout({ children }) {
         >
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel>Enerlytics</SidebarGroupLabel>
-              <SidebarMenu>
-                <SidebarMenuItem icon={HomeIcon} label="Admin Dashboard" />
-                <SidebarMenuItem icon={UserIcon} label="Meter Reader" />
-                <SidebarMenuItem icon={CreditCardIcon} label="Billing" />
-              </SidebarMenu>
+              <SidebarGroupLabel>
+                <h1 className="text-xl font-bold">Enerlytics</h1>
+              </SidebarGroupLabel>
+              <div className="mt-4">
+                <SidebarMenu>
+                  <SidebarMenuItem icon={HomeIcon} label="Admin Dashboard" href="/dashboard/admin" />
+                  <SidebarMenuItem icon={UserIcon} label="Meter Reader" href="/dashboard/meter-reader"/>
+                  <SidebarMenuItem icon={CreditCardIcon} label="Billing" href="/dashboard/billing"/>
+                </SidebarMenu>
+              </div>
             </SidebarGroup>
           </SidebarContent>
         </Sidebar>

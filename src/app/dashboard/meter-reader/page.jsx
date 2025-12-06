@@ -1,13 +1,13 @@
 "use client";
 
-import TopNav from "../TopNav";
+import TopNav from "../../../components/ui/global/TopNav";
 
 export default function MeterReaderPage() {
   return (
     <>
-      <TopNav 
-        title="Meter Reader Dashboard" 
-        items={["Assigned Meters", "Uploads", "History"]} 
+      <TopNav
+        title="Meter Reader Dashboard"
+        items={["Assigned Meters", "Uploads", "History"]}
       />
 
       <div className="p-6">

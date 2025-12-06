@@ -1,13 +1,13 @@
 "use client";
 
-import TopNav from "../TopNav";
+import TopNav from "../../../components/ui/global/TopNav";
 
 export default function BillingPage() {
   return (
     <>
-      <TopNav 
-        title="Billing Dashboard" 
-        items={["Invoices", "Payments", "Reports"]} 
+      <TopNav
+        title="Billing Dashboard"
+        items={["Invoices", "Payments", "Reports"]}
       />
 
       <div className="p-6">

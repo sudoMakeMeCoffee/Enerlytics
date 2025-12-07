@@ -93,9 +93,10 @@ export default function AddUserForm() {
                   <SelectValue placeholder="Select a role" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="admin">Admin</SelectItem>
+                  <SelectItem value="admin">Admin Staff</SelectItem>
+                  <SelectItem value="admin">Manager</SelectItem>
                   <SelectItem value="meter-reader">Meter Reader</SelectItem>
-                  <SelectItem value="user">User</SelectItem>
+                  <SelectItem value="user">Billing Clerk</SelectItem>
                 </SelectContent>
               </Select>
             </div>

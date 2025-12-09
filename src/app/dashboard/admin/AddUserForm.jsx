@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 
+
 export default function AddUserForm() {
   const [form, setForm] = useState({
     fullname: "",
@@ -36,10 +37,23 @@ export default function AddUserForm() {
     setForm({ ...form, role: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("New user:", form);
-    alert("User added (check console)");
+
+    const response =await fetch("/api/admin/add-user",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(form)
+    });
+
+    const data =await response.json();
+
+    if(response.ok){
+      alert("User added successfully!");
+      setForm({fullname:"",email:"", password: "", role: "", phone: "", nic: "",});
+    }else{
+      alert(data.error || "Error adding user");
+    }   
   };
 
   return (

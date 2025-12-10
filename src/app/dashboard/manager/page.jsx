@@ -1,6 +1,5 @@
 "use client";
 
-import TopNav from "../../../components/ui/global/TopNav";
 
 
 export default function AdminPage() {

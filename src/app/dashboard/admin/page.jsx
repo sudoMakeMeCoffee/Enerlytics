@@ -10,9 +10,6 @@ export default function AdminPage() {
         <p>Add User / Manage Users</p>
       </div>
 
-      <div>
-        <AddUserForm />
-      </div>
     </>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import Link from "next/link";
 
 export default function TopNav({ title, items = [] }) {
   return (

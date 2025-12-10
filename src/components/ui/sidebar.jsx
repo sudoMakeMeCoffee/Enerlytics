@@ -23,6 +23,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { usePathname } from "next/navigation";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -439,27 +440,42 @@ function SidebarMenu({
 }
 
 function SidebarMenuItem({ icon: Icon, label, className, href, ...props }) {
-  const { open } = useSidebar()
+  const { open } = useSidebar();
+  const pathname = usePathname(); // <-- FIXED: SSR safe
+
+  const isActive = pathname === href;
 
   return (
     <li
       data-slot="sidebar-menu-item"
       data-sidebar="menu-item"
-      onClick={() => window.location.href = href}
+      onClick={() => (window.location.href = href)}
       className={cn(
-        "group/menu-item relative flex items-center gap-3 px-4 py-2 cursor-pointer",
+        "group/menu-item relative flex items-center gap-3 px-4 py-2 cursor-pointer rounded-md transition",
+        isActive
+          ? "bg-gray-200 font-semibold text-blue-600"
+          : "text-gray-700 hover:bg-gray-100",
         className
       )}
       {...props}
     >
-      {/* Icon is always visible */}
-      {Icon && <Icon className="w-5 h-5" />}
+      {/* Icon always visible */}
+      {Icon && (
+        <Icon
+          className={cn(
+            "w-5 h-5 transition",
+            isActive ? "text-blue-600" : "text-gray-600"
+          )}
+        />
+      )}
 
-      {/* Label only visible when sidebar is open */}
+      {/* Label visible only when sidebar is open */}
       {open && label && <span className="text-sm">{label}</span>}
     </li>
-  )
+  );
 }
+
+
 
 const sidebarMenuButtonVariants = cva(
   "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",

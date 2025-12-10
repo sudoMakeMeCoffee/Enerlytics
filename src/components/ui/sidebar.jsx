@@ -438,14 +438,14 @@ function SidebarMenu({
   );
 }
 
-function SidebarMenuItem({ icon: Icon, label, className, ...props }) {
+function SidebarMenuItem({ icon: Icon, label, className, href, ...props }) {
   const { open } = useSidebar()
 
   return (
     <li
       data-slot="sidebar-menu-item"
       data-sidebar="menu-item"
-      onClick={() => window.location.href = props.href}
+      onClick={() => window.location.href = href}
       className={cn(
         "group/menu-item relative flex items-center gap-3 px-4 py-2 cursor-pointer",
         className

@@ -18,12 +18,15 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 
+
 export default function AddUserForm() {
   const [form, setForm] = useState({
-    username: "",
+    fullname: "",
     email: "",
     password: "",
     role: "",
+    phone: "",
+    nic: ""
   });
 
   const handleChange = (e) => {
@@ -34,10 +37,23 @@ export default function AddUserForm() {
     setForm({ ...form, role: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("New user:", form);
-    alert("User added (check console)");
+
+    const response =await fetch("/api/admin/add-user",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(form)
+    });
+
+    const data =await response.json();
+
+    if(response.ok){
+      alert("User added successfully!");
+      setForm({fullname:"",email:"", password: "", role: "", phone: "", nic: "",});
+    }else{
+      alert(data.error || "Error adding user");
+    }   
   };
 
   return (
@@ -50,13 +66,13 @@ export default function AddUserForm() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            
+
             <div className="space-y-1">
-              <Label>Username</Label>
+              <Label>Full Name</Label>
               <Input
-                name="username"
-                placeholder="Enter username"
-                value={form.username}
+                name="fullname"
+                placeholder="Enter full name"
+                value={form.fullname}
                 onChange={handleChange}
                 required
               />
@@ -71,6 +87,27 @@ export default function AddUserForm() {
                 value={form.email}
                 onChange={handleChange}
                 required
+              />
+            </div>
+
+            <div className="space-y-1">
+              <Label>Phone Number</Label>
+              <Input
+                name="phone"
+                placeholder="07XXXXXXXX"
+                value={form.phone}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-1">
+              <Label>NIC</Label>
+              <Input
+                name="nic"
+                placeholder="Enter NIC Number"
+                value={form.nic}
+                onChange={handleChange}
               />
             </div>
 
@@ -93,9 +130,10 @@ export default function AddUserForm() {
                   <SelectValue placeholder="Select a role" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="admin">Admin</SelectItem>
-                  <SelectItem value="meter-reader">Meter Reader</SelectItem>
-                  <SelectItem value="user">User</SelectItem>
+                  <SelectItem value="ADMIN_STAFF">Admin Staff</SelectItem>
+                  <SelectItem value="Manager">Manager</SelectItem>
+                  <SelectItem value="METER_READER">Meter Reader</SelectItem>
+                  <SelectItem value="CASHIER">Billing Clerk</SelectItem>
                 </SelectContent>
               </Select>
             </div>

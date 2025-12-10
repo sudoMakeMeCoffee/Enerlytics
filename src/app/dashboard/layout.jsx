@@ -1,6 +1,7 @@
 "use client";
 
-import { SidebarProvider } from "@/components/ui/sidebar";
+import TopNav from "@/components/global/TopNav";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import {
   Sidebar,
   SidebarContent,
@@ -24,12 +25,20 @@ export default function DashboardLayout({ children }) {
 
   const meterReaderMenu = [
     { label: "Dashboard", icon: HomeIcon, href: "/dashboard/meter-reader" },
-    { label: "Readings", icon: CreditCardIcon, href: "/dashboard/meter-reader/readings" },
+    {
+      label: "Readings",
+      icon: CreditCardIcon,
+      href: "/dashboard/meter-reader/readings",
+    },
   ];
 
   const billingMenu = [
     { label: "Dashboard", icon: HomeIcon, href: "/dashboard/billing" },
-    { label: "Invoices", icon: CreditCardIcon, href: "/dashboard/billing/invoices" },
+    {
+      label: "Invoices",
+      icon: CreditCardIcon,
+      href: "/dashboard/billing/invoices",
+    },
   ];
 
   function getMenu() {
@@ -66,8 +75,10 @@ export default function DashboardLayout({ children }) {
             </SidebarGroup>
           </SidebarContent>
         </Sidebar>
-
-        <div className="flex-1 flex flex-col">{children}</div>
+        <div className="w-full">
+          <TopNav title={pathname}/>
+          <div className="flex-1 flex flex-col">{children}</div>
+        </div>
       </div>
     </SidebarProvider>
   );

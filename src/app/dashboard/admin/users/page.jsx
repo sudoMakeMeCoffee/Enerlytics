@@ -7,7 +7,7 @@ const page = () => {
     { fullName: "Alice Johnson", email: "", phone: "555-123-4567", nic: "456789123V" },
    ];
   return (
-    <div className="bg-white shadow-sm border rounded-lg p-6 mt-4 mx-1">
+    <div className="bg-white shadow-sm border rounded-lg p-6 mt-4 mx-2">
       <h2 className="text-xl font-semibold mb-4">All Users</h2>
 
       <div className="overflow-x-auto">

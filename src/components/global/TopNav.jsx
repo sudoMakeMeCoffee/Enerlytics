@@ -10,18 +10,11 @@ export default function TopNav({ title, items = [] }) {
         <SidebarTrigger />
         <h2 className="text-xl font-semibold">{title}</h2>
       </div>
-
-      <div className="flex space-x-4 text-sm">
-        {items.map((item, i) => (
-          <Link
-            key={i}
-            href={item.href}
-            className="hover:underline text-gray-700"
-          >
-            {item.label}
-          </Link>
-        ))}
-      </div>
+<div>
+  <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center cursor-pointer border-2">
+    <h2>S</h2>
+  </div>
+</div>
     </div>
   );
 }

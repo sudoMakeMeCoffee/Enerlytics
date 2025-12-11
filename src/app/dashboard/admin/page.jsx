@@ -6,26 +6,27 @@ import {
   Clock,
   UserCog,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 
-export default function page() {
+export default function AdminDshboard() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    async function loadUsers() {
+      const response = await fetch("/api/admin/users");
+      const data = await response.json();
+      setUsers(data);
+    }
+    loadUsers();
+  }, []);
+
   const stats = {
-    totalUsers: 1540,
+    totalUsers: users.length,
     totalPayments: 842000,
     pendingPayments: 47,
     meterReaders: 12,
   };
 
-  const recentUsers = [
-    { name: "Achini Perera", email: "achini@example.com", joined: "2025-01-02" },
-    { name: "Sithija Kavee", email: "sith@gmail.com", joined: "2025-01-03" },
-    { name: "Nimal Silva", email: "nimal@gmail.com", joined: "2025-01-05" },
-  ];
-
-  const recentPayments = [
-    { user: "Achini Perera", amount: 3500, date: "2025-01-07" },
-    { user: "Kasun Madhu", amount: 4200, date: "2025-01-07" },
-    { user: "Sithija Kavee", amount: 3900, date: "2025-01-06" },
-  ];
 
   return (
     <div className="p-6 space-y-8">
@@ -33,7 +34,7 @@ export default function page() {
       <h1 className="text-3xl font-bold">Admin Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        
+
         <SummaryCard
           icon={<Users className="w-8 h-8 text-blue-600" />}
           title="Total Users"
@@ -72,13 +73,21 @@ export default function page() {
           </thead>
 
           <tbody>
-            {recentUsers.map((u, i) => (
-              <tr key={i} className="border-t">
+            {users.slice(0, 3).map((u) => (
+              <tr key={u.id}>
                 <td className="p-3">{u.name}</td>
                 <td className="p-3">{u.email}</td>
-                <td className="p-3">{u.joined}</td>
+                <td className="p-3">{u.created_at?.substring(0, 10)}</td>
               </tr>
             ))}
+
+            {users.length === 0 && (
+              <tr>
+                <td className="p-3 text-gray-500" colSpan={3}>
+                  No users found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
@@ -96,13 +105,23 @@ export default function page() {
           </thead>
 
           <tbody>
-            {recentPayments.map((p, i) => (
-              <tr key={i} className="border-t">
-                <td className="p-3">{p.user}</td>
-                <td className="p-3">LKR {p.amount}</td>
-                <td className="p-3">{p.date}</td>
-              </tr>
-            ))}
+            <tr className="border-t">
+              <td className="p-3">Achini Perera</td>
+              <td className="p-3">LKR 3500</td>
+              <td className="p-3">2025-01-07</td>
+            </tr>
+
+            <tr className="border-t">
+              <td className="p-3">Kasun Madhu</td>
+              <td className="p-3">LKR 4200</td>
+              <td className="p-3">2025-01-07</td>
+            </tr>
+
+            <tr className="border-t">
+              <td className="p-3">Sithija Kavee</td>
+              <td className="p-3">LKR 3900</td>
+              <td className="p-3">2025-01-06</td>
+            </tr>
           </tbody>
         </table>
       </div>

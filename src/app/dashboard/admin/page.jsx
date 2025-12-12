@@ -13,10 +13,24 @@ export default function AdminDshboard() {
 
   useEffect(() => {
     async function loadUsers() {
-      const response = await fetch("/api/admin/users");
-      const data = await response.json();
-      setUsers(data);
+      try {
+        const response = await fetch("/api/admin/users");
+        const data = await response.json();
+        console.log("API RESPONSE:", data);
+
+        if (Array.isArray(data)) {
+          setUsers(data);
+        } else if (data && Array.isArray(data.users)) {
+          setUsers(data.users);
+        } else {
+          setUsers([]);
+        }
+      } catch (error) {
+        console.error("Failed to load users:", error);
+        setUsers([]);
+      }
     }
+
     loadUsers();
   }, []);
 

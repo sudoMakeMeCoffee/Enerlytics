@@ -7,6 +7,7 @@ import {
   UserCog,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function AdminDshboard() {
   const [users, setUsers] = useState([]);
@@ -44,8 +45,14 @@ export default function AdminDshboard() {
 
   return (
     <div className="p-6 space-y-8">
-
-      <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+        <Link href="/dashboard/admin/users/add">
+          <button className="px-3 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded cursor-pointer">
+            Add New User
+          </button>
+        </Link>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
 

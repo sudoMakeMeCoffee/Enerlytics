@@ -1,7 +1,7 @@
 "use client";
 
-import TopNav from "../../../components/ui/global/TopNav";
-import AddUserForm from "./AddUserForm";
+import TopNav from "../../../components/global/TopNav";
+import AddUserForm from "../admin/AddUserForm";
 
 export default function AdminPage() {
   return (

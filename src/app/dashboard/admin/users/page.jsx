@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+
 
 export default function UsersPage() {
   const [users, setUsers] = useState([]);
@@ -26,10 +26,7 @@ export default function UsersPage() {
       alert("Delete failed");
       return;
     }
-     if (!res.ok) {
-      alert("Delete failed");
-      return;
-    }
+
     alert("User deleted successfully!");
     setUsers((prev) => prev.filter((u) => u.id !== id));
   }
@@ -66,9 +63,11 @@ export default function UsersPage() {
                 <td className="p-3 border">{user.nic}</td>
                 <td className="p-3 border">
                   <div className="flex gap-2">
-                    <button className="px-3 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded">
-                      Edit
-                    </button>
+                    <Link href={`/dashboard/admin/users/${user.id}/edit`}>
+                      <button className="px-3 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded">
+                        Edit
+                      </button>
+                    </Link>
                     <button className="px-3 py-1 text-xs bg-red-600 hover:bg-red-700 text-white rounded" onClick={() => deleteUser(user.id)}>
                       Delete
                     </button>

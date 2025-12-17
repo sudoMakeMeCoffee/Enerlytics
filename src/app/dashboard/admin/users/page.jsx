@@ -8,13 +8,31 @@ export default function UsersPage() {
 
   useEffect(() => {
     async function loadUsers() {
-      const res = await fetch("/api/admin/users");
+      const res = await fetch("/api/admin/users", { cache: "no-store", });
       const data = await res.json();
       setUsers(data);
     }
     loadUsers();
   }, []);
 
+  async function deleteUser(id) {
+    if (!confirm("Delete user?")) return;
+
+    const res = await fetch(`/api/admin/users/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!res.ok) {
+      alert("Delete failed");
+      return;
+    }
+     if (!res.ok) {
+      alert("Delete failed");
+      return;
+    }
+    alert("User deleted successfully!");
+    setUsers((prev) => prev.filter((u) => u.id !== id));
+  }
 
   return (
     <div className="bg-white shadow-sm border rounded-lg p-6 mt-4 mx-2">
@@ -51,7 +69,7 @@ export default function UsersPage() {
                     <button className="px-3 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded">
                       Edit
                     </button>
-                    <button className="px-3 py-1 text-xs bg-red-600 hover:bg-red-700 text-white rounded">
+                    <button className="px-3 py-1 text-xs bg-red-600 hover:bg-red-700 text-white rounded" onClick={() => deleteUser(user.id)}>
                       Delete
                     </button>
                   </div>

@@ -1,34 +1,28 @@
+"use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import React from "react";
+import { Button } from "@/components/ui/button";
 
-const page = () => {
-  const users = [
-    {
-      fullName: "John Doe",
-      email: "",
-      phone: "123-456-7890",
-      nic: "987654321V",
-    },
-    {
-      fullName: "Jane Smith",
-      email: "",
-      phone: "987-654-3210",
-      nic: "123456789V",
-    },
-    {
-      fullName: "Alice Johnson",
-      email: "",
-      phone: "555-123-4567",
-      nic: "456789123V",
-    },
-  ];
+export default function UsersPage() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    async function loadUsers() {
+      const res = await fetch("/api/admin/users");
+      const data = await res.json();
+      setUsers(data);
+    }
+    loadUsers();
+  }, []);
+
+
   return (
     <div className="bg-white shadow-sm border rounded-lg p-6 mt-4 mx-2">
       <div className="w-full flex items-center justify-between mb-2">
         <h2 className="text-xl font-semibold mb-4">All Users</h2>
         <Link href="/dashboard/admin/users/add">
           <button className="px-3 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded cursor-pointer">
-            Add New User
+            + Add New User
           </button>
         </Link>
       </div>
@@ -48,7 +42,7 @@ const page = () => {
           <tbody>
             {users.map((user, i) => (
               <tr key={i} className="border-t">
-                <td className="p-3 border">{user.fullName}</td>
+                <td className="p-3 border">{user.name}</td>
                 <td className="p-3 border">{user.email}</td>
                 <td className="p-3 border">{user.phone}</td>
                 <td className="p-3 border">{user.nic}</td>
@@ -78,5 +72,3 @@ const page = () => {
     </div>
   );
 };
-
-export default page;

@@ -65,18 +65,44 @@ export default function EditUserPage({ params }) {
       <h1 className="text-2xl font-bold mb-6">Edit User</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input name="name" value={form.name} onChange={handleChange} />
-        <input name="email" value={form.email} onChange={handleChange} />
-        <input name="phone" value={form.phone} onChange={handleChange} />
-        <input name="nic" value={form.nic} onChange={handleChange} />
+        <div>
+          <label className="block text-sm mb-1">Full Name</label>
+          <input name="name" value={form.name} onChange={handleChange} className="w-full border rounded p-2" />
+        </div>
+        <div>
+          <label className="block text-sm mb-1">Email</label>
+          <input name="email" value={form.email} onChange={handleChange} className="w-full border rounded p-2" />
+        </div>
+        <div>
+          <label className="block text-sm mb-1">Phone Number</label>
+          <input name="phone" value={form.phone} onChange={handleChange} className="w-full border rounded p-2" />
+        </div>
+        <div>
+          <label className="block text-sm mb-1">NIC</label>
+          <input name="nic" value={form.nic} onChange={handleChange} className="w-full border rounded p-2" />
+        </div>
 
-        <select name="role" value={form.role} onChange={handleChange}>
-          <option value="ADMIN">Admin</option>
-          <option value="METER_READER">Meter Reader</option>
-          <option value="BILLING">Billing</option>
-        </select>
 
-        <button>Update</button>
+        <div>
+          <label className="block text-sm mb-1">Role</label>
+          <select name="role" value={form.role} onChange={handleChange} className="w-full border rounded p-2">
+            <option value="ADMIN_STAFF">Admin Staff</option>
+            <option value="MANAGER">Billing Clerk</option>
+            <option value="METER_READER">Meter Reader</option>
+            <option value="CASHIER">Billing Clerk</option>
+          </select>
+        </div>
+
+        <div className="flex gap-4 mt-4">
+          <button className="bg-gray-300 px-4 py-2 rounded" >Update</button>
+          <button
+            type="button"
+            className="bg-gray-300 px-4 py-2 rounded"
+            onClick={() => router.back()}
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   );

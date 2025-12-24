@@ -1,8 +1,8 @@
 "use client";
 
 import TopNav from "@/components/global/TopNav";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import {
+  SidebarProvider,
   Sidebar,
   SidebarContent,
   SidebarMenu,
@@ -10,19 +10,37 @@ import {
   SidebarGroup,
   SidebarGroupLabel,
 } from "@/components/ui/sidebar";
-import { HomeIcon, UserIcon, CreditCardIcon, SettingsIcon } from "lucide-react";
-import { usePathname } from "next/navigation";
+import {
+  HomeIcon,
+  UserIcon,
+  ZapIcon,
+  ClipboardListIcon,
+  CreditCardIcon,
+  SettingsIcon,
+  LogOutIcon,
+} from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function DashboardLayout({ children }) {
   const pathname = usePathname();
+  const router = useRouter();
 
-  // Menus for each dashboard
+  // Admin Menu
   const adminMenu = [
     { label: "Dashboard", icon: HomeIcon, href: "/dashboard/admin" },
     { label: "Users", icon: UserIcon, href: "/dashboard/admin/users" },
     { label: "Logs", icon: SettingsIcon, href: "/dashboard/admin/logs" },
   ];
 
+  // Admin_Staff
+  const adminStaffMenu = [
+    { label: "Dashboard", icon: HomeIcon, href: "/dashboard/admin-staff" },
+    { label: "Customers", icon: UserIcon, href: "/dashboard/admin-staff/customers" },
+    { label: "Meters", icon: ZapIcon, href: "/dashboard/admin-staff/meters" },
+    { label: "Meter Readers", icon: ClipboardListIcon, href: "/dashboard/admin-staff/meter-readers" },
+  ];
+
+  // Meter Reader Menu
   const meterReaderMenu = [
     { label: "Dashboard", icon: HomeIcon, href: "/dashboard/meter-reader" },
     {
@@ -32,6 +50,7 @@ export default function DashboardLayout({ children }) {
     },
   ];
 
+  // Billing Menu
   const billingMenu = [
     { label: "Dashboard", icon: HomeIcon, href: "/dashboard/billing" },
     {
@@ -42,10 +61,16 @@ export default function DashboardLayout({ children }) {
   ];
 
   function getMenu() {
+    if (pathname.startsWith("/dashboard/admin-staff")) return adminStaffMenu;
     if (pathname.startsWith("/dashboard/admin")) return adminMenu;
     if (pathname.startsWith("/dashboard/meter-reader")) return meterReaderMenu;
     if (pathname.startsWith("/dashboard/billing")) return billingMenu;
     return [];
+  }
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    router.push("/login");
   }
 
   const menu = getMenu();
@@ -55,28 +80,41 @@ export default function DashboardLayout({ children }) {
       <div className="flex min-h-screen bg-gray-50 w-full">
         <Sidebar collapsible="icon" className="border-r bg-white">
           <SidebarContent>
+            {/*  App Title */}
             <SidebarGroup>
               <SidebarGroupLabel>
                 <h1 className="text-xl font-bold">Enerlytics</h1>
               </SidebarGroupLabel>
 
-              <div className="mt-4">
-                <SidebarMenu>
-                  {menu.map((item, i) => (
-                    <SidebarMenuItem
-                      key={i}
-                      icon={item.icon}
-                      label={item.label}
-                      href={item.href}
-                    />
-                  ))}
-                </SidebarMenu>
-              </div>
+              {/*  Dynamic Menu */}
+              <SidebarMenu className="mt-4">
+                {menu.map((item, i) => (
+                  <SidebarMenuItem
+                    key={i}
+                    icon={item.icon}
+                    label={item.label}
+                    href={item.href}
+                  />
+                ))}
+              </SidebarMenu>
+            </SidebarGroup>
+
+            {/*  Logout Section */}
+            <SidebarGroup className="mt-auto mb-20">
+              <SidebarMenu>
+                <SidebarMenuItem
+                  icon={LogOutIcon}
+                  label="Logout"
+                  onClick={handleLogout}
+                />
+              </SidebarMenu>
             </SidebarGroup>
           </SidebarContent>
         </Sidebar>
+
+        {/* Main Content */}
         <div className="w-full">
-          <TopNav title={pathname}/>
+          <TopNav title={pathname} />
           <div className="flex-1 flex flex-col">{children}</div>
         </div>
       </div>

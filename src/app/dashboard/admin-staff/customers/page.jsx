@@ -10,6 +10,22 @@ export default function CustomersPage() {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  async function deleteCustomer(id) {
+    if (!confirm("Delete customer?")) return;
+
+    const res = await fetch(`/api/admin-staff/customers/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!res.ok) {
+      alert("Delete failed");
+      return;
+    }
+
+    alert("User deleted successfully!");
+    setCustomers(prev => prev.filter(c => c.id !== id));
+  }
+
   useEffect(() => {
     async function loadCustomers() {
       try {
@@ -80,10 +96,10 @@ export default function CustomersPage() {
                 <TableCell>{c.phone ?? "-"}</TableCell>
                 <TableCell>{c.nic ?? "-"}</TableCell>
                 <TableCell className="space-x-2">
-                  <Link href={`/dashboard/staff/customers/${c.id}/edit`}>
+                  <Link href={`/dashboard/admin-staff/customers/${c.id}/edit`}>
                     <Button size="sm" variant="outline">Edit</Button>
                   </Link>
-                  <Button size="sm" variant="destructive">Delete</Button>
+                  <Button onClick={() => deleteCustomer(c.id)} size="sm" variant="destructive">Delete</Button>
                 </TableCell>
               </TableRow>
             ))

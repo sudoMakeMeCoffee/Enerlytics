@@ -3,8 +3,31 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { useEffect, useState } from "react";
+
 
 export default function MetersPage() {
+  const [meters, setMeters] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadMeters() {
+      try {
+        const res = await fetch("/api/admin-staff/meters", {
+          cache: "no-store",
+        });
+        const data = await res.json();
+        setMeters(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadMeters();
+  }, []);
+
   return (
     <div className="p-6 space-y-4">
       <div className="flex justify-between">
@@ -27,12 +50,34 @@ export default function MetersPage() {
             <TableHead>Customer</TableHead>
           </TableRow>
         </TableHeader>
+
         <TableBody>
-          <TableRow>
-            <TableCell>MTR-001</TableCell>
-            <TableCell>Active</TableCell>
-            <TableCell>John Doe</TableCell>
-          </TableRow>
+          {loading && (
+            <TableRow>
+              <TableCell colSpan={3} className="text-center">
+                Loading meters...
+              </TableCell>
+            </TableRow>
+          )}
+
+          {!loading && meters.length === 0 && (
+            <TableRow>
+              <TableCell colSpan={3} className="text-center">
+                No meters found
+              </TableCell>
+            </TableRow>
+          )}
+
+          {!loading &&
+            meters.map((m) => (
+              <TableRow key={m.id}>
+                <TableCell>{m.meter_number}</TableCell>
+                <TableCell>{m.status}</TableCell>
+                <TableCell>
+                  {m.customer_name ?? "! Unassigned "}
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </div>

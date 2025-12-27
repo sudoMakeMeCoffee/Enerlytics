@@ -3,8 +3,26 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { useEffect, useState } from "react";
 
 export default function MeterReadersPage() {
+
+  const [readers, setReaders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadReaders() {
+      const res = await fetch("/api/admin-staff/meter-readers/with-meters", {
+        cache: "no-store",
+      });
+      const data = await res.json();
+      setReaders(data);
+      setLoading(false);
+    }
+
+    loadReaders();
+  }, []);
+
   return (
     <div className="p-6 space-y-4">
       <div className="flex justify-between">
@@ -23,11 +41,32 @@ export default function MeterReadersPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell>Alex</TableCell>
-            <TableCell>alex@mail.com</TableCell>
-            <TableCell>MTR-001</TableCell>
-          </TableRow>
+          {loading && (
+            <TableRow>
+              <TableCell colSpan={3} className="text-center">
+                Loading...
+              </TableCell>
+            </TableRow>
+          )}
+
+          {!loading && readers.length === 0 && (
+            <TableRow>
+              <TableCell colSpan={3} className="text-center">
+                No meter readers found
+              </TableCell>
+            </TableRow>
+          )}
+
+          {!loading &&
+            readers.map(r => (
+              <TableRow key={r.reader_id}>
+                <TableCell>{r.name}</TableCell>
+                <TableCell>{r.email}</TableCell>
+                <TableCell>
+                  {r.meter_number ?? "—"}
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </div>

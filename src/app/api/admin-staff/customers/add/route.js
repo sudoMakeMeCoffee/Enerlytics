@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 
 export async function POST(req) {
   try {
-    const { name, email, phone, nic } = await req.json();
+    const { name, email, phone, nic, address, customerType } = await req.json();
 
     if (!name || !email) {
       return Response.json(
@@ -12,8 +12,8 @@ export async function POST(req) {
     }
 
     await db.query(
-      "INSERT INTO customers (name, email, phone, nic) VALUES (?, ?, ?, ?)",
-      [name, email, phone || null, nic || null]
+      "INSERT INTO customers (name, email, phone, nic, address, customer_type) VALUES (?, ?, ?, ?, ?, ?)",
+      [name, email, phone || null, nic || null, address || null, customerType || "HOUSEHOLD"]
     );
 
     return Response.json({ message: "Customer added" }, { status: 201 });

@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -14,6 +15,8 @@ export default function AddCustomerPage() {
     email: "",
     phone: "",
     nic: "",
+    address: "",
+    customerType: "HOUSEHOLD",
   });
 
   function handleChange(e) {
@@ -63,6 +66,25 @@ export default function AddCustomerPage() {
       <div className="space-y-2">
         <Label>NIC</Label>
         <Input name="nic" value={form.nic} onChange={handleChange} />
+      </div>
+
+      <div className="space-y-2">
+        <Label>Address</Label>
+        <Input name="address" value={form.address} onChange={handleChange} />
+      </div>
+
+      <div className="space-y-2 flex  items-center gap-4">
+        <Label className="mb-3">Type </Label>
+        <Select value={form.customerType} onValueChange={value => setForm({ ...form, customerType: value })}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="HOUSEHOLD">Household</SelectItem>
+            <SelectItem value="BUSINESS">Business</SelectItem>
+            <SelectItem value="GOVERNMENT">Government</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       <Button className="w-full">Save Customer</Button>

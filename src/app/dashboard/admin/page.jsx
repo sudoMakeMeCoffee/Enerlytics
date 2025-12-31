@@ -11,6 +11,8 @@ import Link from "next/link";
 
 export default function AdminDshboard() {
   const [users, setUsers] = useState([]);
+  const [meterReaderCount, setMeterReaderCount] = useState(0);
+
 
   useEffect(() => {
     async function loadUsers() {
@@ -32,14 +34,26 @@ export default function AdminDshboard() {
       }
     }
 
+    async function loadMeterReaders() {
+      try {
+        const response = await fetch("/api/admin/meter-readers");
+        const data = await response.json();
+        setMeterReaderCount(data.count || 0);
+      } catch {
+        setMeterReaderCount(0);
+      }
+    }
+
+
     loadUsers();
+    loadMeterReaders();
   }, []);
 
   const stats = {
     totalUsers: users.length,
     totalPayments: 842000,
     pendingPayments: 47,
-    meterReaders: 12,
+    meterReaders: meterReaderCount,
   };
 
 

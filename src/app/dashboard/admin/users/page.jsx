@@ -50,6 +50,7 @@ export default function UsersPage() {
               <th className="p-3 border">Email</th>
               <th className="p-3 border">Phone</th>
               <th className="p-3 border">NIC</th>
+              <th className="p-3 border">Role</th>
               <th className="p-3 border">Actions</th>
             </tr>
           </thead>
@@ -61,6 +62,7 @@ export default function UsersPage() {
                 <td className="p-3 border">{user.email}</td>
                 <td className="p-3 border">{user.phone}</td>
                 <td className="p-3 border">{user.nic}</td>
+                <td className="p-3 border">{user.role}</td>
                 <td className="p-3 border">
                   <div className="flex gap-2">
                     <Link href={`/dashboard/admin/users/${user.id}/edit`}>

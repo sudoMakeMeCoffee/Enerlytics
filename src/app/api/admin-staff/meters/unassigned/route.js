@@ -1,3 +1,4 @@
+// this is for get unassigned meters for meter-readers when assigning
 import { db } from "@/lib/db";
 
 export async function GET() {

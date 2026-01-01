@@ -7,6 +7,8 @@ export async function GET() {
         m.id,
         m.meter_number,
         m.status,
+        m.utility_type,
+        m.unit,
         c.name AS customer_name
       FROM meters m
       LEFT JOIN meter_customer_assignments a

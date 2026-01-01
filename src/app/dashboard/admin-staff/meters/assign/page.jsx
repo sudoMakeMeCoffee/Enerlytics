@@ -12,7 +12,7 @@ export default function AssignMeterPage() {
 
   useEffect(() => {
     async function loadData() {
-      const metersRes = await fetch("/api/admin-staff/meters");
+      const metersRes = await fetch("/api/admin-staff/meters/assign/unassigned");
       const customersRes = await fetch("/api/admin-staff/customers");
 
       const metersData = await metersRes.json();

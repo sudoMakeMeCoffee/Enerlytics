@@ -47,6 +47,8 @@ export default function MetersPage() {
           <TableRow>
             <TableHead>Meter No</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead>Utility</TableHead>
+            <TableHead>Unit</TableHead>
             <TableHead>Customer</TableHead>
           </TableRow>
         </TableHeader>
@@ -73,6 +75,8 @@ export default function MetersPage() {
               <TableRow key={m.id}>
                 <TableCell>{m.meter_number}</TableCell>
                 <TableCell>{m.status}</TableCell>
+                <TableCell>{m.utility_type}</TableCell>
+                <TableCell>{m.unit}</TableCell>
                 <TableCell>
                   {m.customer_name ?? "! Unassigned "}
                 </TableCell>

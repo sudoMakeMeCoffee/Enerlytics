@@ -13,6 +13,7 @@ export default function AddMeterPage() {
   const router = useRouter();
   const [meterNumber, setMeterNumber] = useState("");
   const [status, setStatus] = useState("ACTIVE");
+  const [utilityType, setUtilityType] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -20,7 +21,7 @@ export default function AddMeterPage() {
     const res = await fetch("/api/admin-staff/meters/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ meterNumber, status }),
+      body: JSON.stringify({ meterNumber, status, utilityType }),
     });
 
     if (!res.ok) {
@@ -41,6 +42,7 @@ export default function AddMeterPage() {
         <Input
           value={meterNumber}
           onChange={(e) => setMeterNumber(e.target.value)}
+          placeholder="MTR-001"
           required
         />
       </div>
@@ -58,6 +60,28 @@ export default function AddMeterPage() {
           </SelectContent>
         </Select>
       </div>
+
+      <div className="space-y-2">
+        <Label>Utility Type</Label>
+        <Select value={utilityType} onValueChange={setUtilityType}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select utility type" />
+            {utilityType && (
+              <p className="text-sm text-muted-foreground ">
+                Unit: {utilityType === "ELECTRICITY" ? "kWh" : "m³"}
+              </p>
+            )}
+          </SelectTrigger>
+          <SelectContent >
+            <SelectItem value="ELECTRICITY">Electricity</SelectItem>
+            <SelectItem value="WATER">Water</SelectItem>
+            <SelectItem value="GAS">Gas</SelectItem>
+          </SelectContent>
+        </Select>
+
+
+      </div>
+
 
       <Button type="submit" className="w-full">Save Meter</Button>
     </form >

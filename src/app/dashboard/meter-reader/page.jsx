@@ -1,42 +1,76 @@
 "use client";
 
 import Link from "next/link";
-import { ClipboardList, Zap, Users } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "@/components/ui/table";
+
+const meters = [
+  {
+    id: "MTR-001",
+    utility: "Electricity",
+    customer: "John Doe",
+    address: "Colombo 07",
+    status: "Active",
+    periodStatus: "Pending",
+  },
+  {
+    id: "MTR-002",
+    utility: "Water",
+    customer: "Jane Smith",
+    address: "Kandy",
+    status: "Active",
+    periodStatus: "Completed",
+  },
+];
 
 export default function MeterReaderDashboard() {
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Meter Reader Dashboard</h1>
+      <h1 className="text-2xl font-bold">Assigned Meters</h1>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <StatCard title="Meters Assigned" value="120" icon={<Users />} />
-        <StatCard title="Readings Today" value="34" icon={<ClipboardList />} />
-        <StatCard title="Units Recorded" value="4,820 kWh" icon={<Zap />} />
-      </div>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Meter No</TableHead>
+            <TableHead>Utility</TableHead>
+            <TableHead>Customer</TableHead>
+            <TableHead>Location</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Reading</TableHead>
+          </TableRow>
+        </TableHeader>
 
-      {/* Action */}
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-lg font-semibold mb-4">Quick Action</h2>
-        <Link
-          href="/dashboard/meter-reader/add"
-          className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          ➕ Add Meter Reading
-        </Link>
-      </div>
-    </div>
-  );
-}
-
-function StatCard({ title, value, icon }) {
-  return (
-    <div className="bg-white p-6 rounded-lg shadow flex items-center gap-4">
-      <div className="p-3 bg-gray-100 rounded-full">{icon}</div>
-      <div>
-        <p className="text-sm text-gray-500">{title}</p>
-        <h3 className="text-xl font-bold">{value}</h3>
-      </div>
+        <TableBody>
+          {meters.map((m) => (
+            <TableRow key={m.id}>
+              <TableCell>{m.id}</TableCell>
+              <TableCell>{m.utility}</TableCell>
+              <TableCell>{m.customer}</TableCell>
+              <TableCell>{m.address}</TableCell>
+              <TableCell>
+                <Badge variant={m.periodStatus === "Pending" ? "destructive" : "success"}>
+                  {m.periodStatus}
+                </Badge>
+              </TableCell>
+              <TableCell>
+                <Link href={`/dashboard/meter-reader/readings/${m.id}`}>
+                  <Button size="sm" disabled={m.periodStatus === "Completed"}>
+                    Add Reading
+                  </Button>
+                </Link>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 }

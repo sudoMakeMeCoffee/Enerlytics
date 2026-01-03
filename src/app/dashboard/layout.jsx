@@ -18,6 +18,16 @@ import {
   CreditCardIcon,
   SettingsIcon,
   LogOutIcon,
+  DollarSignIcon,
+  FileTextIcon,
+  AlertCircleIcon,
+  BarChart3,
+  ActivityIcon,
+  UserXIcon,
+  TrendingUpIcon,
+  TrophyIcon,
+  PlusSquareIcon,
+  HistoryIcon,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -38,26 +48,34 @@ export default function DashboardLayout({ children }) {
     { label: "Customers", icon: UserIcon, href: "/dashboard/admin-staff/customers" },
     { label: "Meters", icon: ZapIcon, href: "/dashboard/admin-staff/meters" },
     { label: "Meter Readers", icon: ClipboardListIcon, href: "/dashboard/admin-staff/meter-readers" },
+    { label: "Tariffs", icon: DollarSignIcon, href: "/dashboard/admin-staff/tariffs" },
   ];
 
   // Meter Reader Menu
   const meterReaderMenu = [
     { label: "Dashboard", icon: HomeIcon, href: "/dashboard/meter-reader" },
-    {
-      label: "Readings",
-      icon: CreditCardIcon,
-      href: "/dashboard/meter-reader/readings",
-    },
+    { label: "Add Reading", icon: PlusSquareIcon, href: "/dashboard/meter-reader/add", },
+    { label: "Readings History", icon: HistoryIcon, href: "/dashboard/meter-reader/readings/history/[meterId]", },
   ];
 
   // Billing Menu
   const billingMenu = [
     { label: "Dashboard", icon: HomeIcon, href: "/dashboard/billing" },
-    {
-      label: "Invoices",
-      icon: CreditCardIcon,
-      href: "/dashboard/billing/invoices",
-    },
+    { label: "bills", icon: FileTextIcon, href: "/dashboard/billing/bills/[billId]" },
+    { label: "outsatnding", icon: AlertCircleIcon, href: "/dashboard/billing/outstanding" },
+    { label: "Add payment", icon: CreditCardIcon, href: "/dashboard/billing/payments/add/[billId]" },
+    { label: "Payment History", icon: HistoryIcon, href: "/dashboard/billing/payments/history/[customerId]" },
+    { label: "summary", icon: BarChart3, href: "/dashboard/billing/summary" },
+  ];
+
+  // Manager Menu
+  const managerMenu = [
+    { label: "Dashboard", icon: HomeIcon, href: "/dashboard/manager" },
+    { label: "consumption", icon: ActivityIcon, href: "/dashboard/manager/consumption" },
+    { label: "defaulters", icon: UserXIcon, href: "/dashboard/manager/defaulters" },
+    { label: "payments", icon: CreditCardIcon, href: "/dashboard/manager/payments" },
+    { label: "revenue", icon: TrendingUpIcon, href: "/dashboard/manager/revenue" },
+    { label: "top-consumers", icon: TrophyIcon, href: "/dashboard/manager/top-consumers" },
   ];
 
   function getMenu() {
@@ -65,6 +83,7 @@ export default function DashboardLayout({ children }) {
     if (pathname.startsWith("/dashboard/admin")) return adminMenu;
     if (pathname.startsWith("/dashboard/meter-reader")) return meterReaderMenu;
     if (pathname.startsWith("/dashboard/billing")) return billingMenu;
+    if (pathname.startsWith("/dashboard/manager")) return managerMenu;
     return [];
   }
 
